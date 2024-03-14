@@ -1,0 +1,13 @@
+{
+  "deployment": {
+    "name": "zohocrm_bulk_callback",
+    "stack": "node18",
+    "type": "advancedio",
+    "env_variables": {
+      "CODELIB_SECRET_KEY": "CODELIB_FAKE_KEY"
+    }
+  },
+  "execution": {
+    "main": "index.js"
+  }
+}
