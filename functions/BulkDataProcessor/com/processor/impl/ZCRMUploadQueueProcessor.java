@@ -34,7 +34,7 @@ public class ZCRMUploadQueueProcessor implements ZCRMQueueProcessor {
 	@Override
 	public void process(JSONObject projectData, JSONArray tableData) throws Exception {
 
-		OkHttpClient httpClient = new OkHttpClient();
+		OkHttpClient httpClient = CommonUtil.getOkHttpClient();
 		for (int i = 0; i < tableData.length(); i++) {
 			JSONObject rowData = tableData.getJSONObject(i);
 			if (rowData.has(WRITE_QUEUE.TABLE.value())) {
