@@ -34,13 +34,13 @@ public class ZCRMDownloadQueueProcessor implements ZCRMQueueProcessor {
 	@Override
 	public void process(JSONObject projectData, JSONArray tableData) throws Exception {
 		ZCProject.initProject();
-		OkHttpClient httpClient = new OkHttpClient();
+		OkHttpClient httpClient = CommonUtil.getOkHttpClient();
 		for (int i = 0; i < tableData.length(); i++) {
 			JSONObject rowData = tableData.getJSONObject(i);
 			if (rowData.has(CommonUtil.BULK_READ)) {
 				rowData = rowData.getJSONObject(BULK_READ.TABLE.value());
 			}
-			Integer pageNo = rowData.getInt(BULK_READ.REQUESTED_PAGE_NO.value());
+			Integer requestedPageNo = rowData.getInt(BULK_READ.REQUESTED_PAGE_NO.value());
 			String moduleName = rowData.getString(BULK_READ.MODULE_NAME.value());
 			Integer fetchedPageNo = rowData.getInt(BULK_READ.FETCHED_PAGE_NO.value());
 			String downloadURL = (rowData.get(BULK_READ.DOWNLOAD_URL.value()) != null
@@ -53,7 +53,7 @@ public class ZCRMDownloadQueueProcessor implements ZCRMQueueProcessor {
 							: null;
 			String[] fieldsToBeProcessed = rowData.get(BULK_READ.FIELDS_TO_BE_PROCESSED.value()).toString().split(",");
 			String accessToken = CommonUtil.getCRMAccessToken();
-			if (crmJobId != null && downloadURL != null) {
+			if (crmJobId != null && downloadURL != null && !downloadURL.isBlank()) {
 				Request downloadURLReq = new Request.Builder().url(downloadURL)
 						.addHeader("Authorization", accessToken)
 						.method("GET", null).build();
@@ -97,7 +97,7 @@ public class ZCRMDownloadQueueProcessor implements ZCRMQueueProcessor {
 				}
 			}
 
-			if (fetchedPageNo < pageNo) {
+			if (fetchedPageNo < requestedPageNo) {
 
 				Long id = rowData.getLong("ROWID");
 				JSONObject callBackObj = new JSONObject();
@@ -109,6 +109,7 @@ public class ZCRMDownloadQueueProcessor implements ZCRMQueueProcessor {
 
 				JSONObject query = new JSONObject();
 				query.put("module", module);
+				query.put("page", requestedPageNo);
 				query.put("fields", fieldsToBeProcessed);
 
 				JSONObject input = new JSONObject();
@@ -127,8 +128,9 @@ public class ZCRMDownloadQueueProcessor implements ZCRMQueueProcessor {
 					JSONObject bulkResponse = new JSONObject(response.body().string());
 					String jobId = bulkResponse.getJSONArray("data").getJSONObject(0).getJSONObject("details").get("id")
 							.toString();
-					ZCQL.getInstance().executeQuery("update BulkRead set CRMJOBID='" + jobId + "',FETCHED_PAGE_NO="
-							+ pageNo + "  where ROWID='" + id + "'");
+					ZCQL.getInstance().executeQuery(
+							"UPDATE BulkRead SET CRMJOBID='" + jobId + "',DOWNLOAD_URL='',FETCHED_PAGE_NO='"
+									+ requestedPageNo + "'  where ROWID='" + id + "'");
 				}
 			}
 

@@ -2,6 +2,7 @@
 package com.util;
 
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -53,6 +54,10 @@ public class CommonUtil {
 				+ "/server/zohocrm_bulk_callback/job?catalyst-codelib-secret-key="
 				+ System.getenv("CODELIB_SECRET_KEY");
 
+	}
+
+	public static OkHttpClient getOkHttpClient(){
+		return new OkHttpClient.Builder().connectTimeout(1, TimeUnit.MINUTES).build();
 	}
 
 	public static ZCRMFieldMeta getFields(String module) throws Exception {
