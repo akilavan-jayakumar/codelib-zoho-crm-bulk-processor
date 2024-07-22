@@ -1,7 +1,14 @@
-**/node_modules
-**/package-lock.json
-.catalystrc
-**/.project
+# Java
+**/lib
+**/bin
 **/.output
 **/*.class
-**/lib
+**/.project
+**/.classpath
+
+#Node
+**/node_modules
+**/package-lock.json
+
+# Catalyst
+.catalystrc

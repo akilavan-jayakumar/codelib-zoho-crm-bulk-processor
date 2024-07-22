@@ -5,7 +5,9 @@
       "BulkJobScheduler",
       "zohocrm_bulk_callback"
     ],
-    "ignore": [".output"],
+    "ignore": [
+      ".output"
+    ],
     "source": "functions"
   }
 }
