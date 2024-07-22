@@ -1,7 +1,15 @@
+# Java
+**/lib
+**/bin
+**/.output
+**/.vscode
+**/*.class
+**/.project
+**/.classpath
+
+#Node
 **/node_modules
 **/package-lock.json
+
+# Catalyst
 .catalystrc
-**/.project
-**/.output
-**/*.class
-**/lib

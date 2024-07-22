@@ -22,7 +22,7 @@ jobs:
           java-version: '17'
           distribution: 'oracle'
       - name: Installing Catalyst CLI
-        run: npm i -g zcatalyst-cli@1.17.3
+        run: npm i -g zcatalyst-cli@beta
       - name: Downloading dependencies for BulkDataProcessor
         working-directory: ./functions/BulkDataProcessor
         run: mvn org.apache.maven.plugins:maven-dependency-plugin:copy-dependencies@download-dependencies && rm ./pom.xml

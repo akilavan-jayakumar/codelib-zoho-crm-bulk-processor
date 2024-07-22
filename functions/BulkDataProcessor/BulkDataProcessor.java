@@ -37,7 +37,7 @@ public class BulkDataProcessor implements CatalystEventHandler {
 				new ZCRMUploadQueueProcessor().process(projectData, eventData);
 			}
 		} catch (Exception e) {
-			LOGGER.log(Level.SEVERE, "Exception in Cron Function", e);
+			LOGGER.log(Level.SEVERE, "Exception in "+BulkDataProcessor.class.getName()+" function ", e);
 			return EVENT_STATUS.FAILURE;
 		}
 		return EVENT_STATUS.SUCCESS;
