@@ -67,6 +67,18 @@
         "dependsOn": []
       }
     ],
+    "SchedulingJobpool" : [ {
+      "type" : "SchedulingJobpool",
+      "name" : "ZohoCRMTaskPool",
+      "properties" : {
+        "name" : "ZohoCRMTaskPool",
+        "type" : "Function",
+        "capacity" : {
+          "memory" : 1024
+        }
+      },
+      "dependsOn" : [ ]
+    } ],
     "Filestore": [
       {
         "type": "folder",
